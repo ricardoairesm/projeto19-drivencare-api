@@ -1,3 +1,5 @@
+import doctorServices from "../services/doctorServices.js";
+
 async function create(req, res, next) {
     const { name, email, password, specialty, location } = req.body;
 
