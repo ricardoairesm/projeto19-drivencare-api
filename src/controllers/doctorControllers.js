@@ -5,14 +5,35 @@ async function create(req, res, next) {
 
     try{
         await doctorServices.create({name,email,password,specialty,location})
-
         return res.sendStatus(201)
     }catch(err){
-        return res.status(500).send(err.message);
+        next(err);
     }
 
 }
 
+
+async function signin(req, res, next) {
+    const { email, password } = req.body;
+    try {
+      const token = await doctorServices.signin({ email, password });
+      return res.send({ token });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function findByName(req,res,next){
+    try{
+      const doctor = await doctorServices.findByName();
+
+      return res.json(doctor)
+    }catch(err){
+      res.status(500).send(err.message)
+    }
+  }
+
 export default {
     create,
+    signin
 };
